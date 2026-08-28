@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Fatima 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            background-color: #fce4ec;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* --- KEYPAD PASSWORD CONTAINER --- */
+        .pass-container {
+            display: flex;
+            background: #f48fb1;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(233, 30, 99, 0.25);
+            width: 480px;
+            max-width: 95vw;
+            overflow: hidden;
+            border: 4px solid #f8bbd0;
+        }
+
+        .pass-left {
+            background: #fce4ec;
+            width: 45%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 2px dashed #f8bbd0;
+        }
+
+        .pass-left img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .pass-right {
+            background: #f48fb1;
+            width: 55%;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pass-title {
+            font-family: 'Caveat', cursive;
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .pin-dots {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .pin-dot {
+            width: 22px;
+            height: 26px;
+            background: #ffffff;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #d81b60;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 12px;
+        }
+
+        .key-btn {
+            background: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #c2185b;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.1s, background 0.1s;
+        }
+
+        .key-btn:active {
+            transform: scale(0.92);
+            background: #fce4ec;
+        }
+
+        .unlock-btn {
+            background: #ffffff;
+            border: none;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 200px;
+            padding: 8px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #c2185b;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.1s;
+        }
+
+        .unlock-btn:active {
+            transform: scale(0.96);
+        }
+        /* ------------------------------------------- */
+
+        .polaroid {
+            background: white;
+            padding: 15px 15px 35px 15px;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            max-width: 280px;
+            width: 100%;
+            margin-bottom: 20px;
+            transform: rotate(-2deg);
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .question-title {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: #6a1b9a;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .yes-btn {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 25px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .no-btn {
+            background-color: #e53935;
+            color: white;
+            padding: 8px 25px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .hub-header {
+            font-family: 'Caveat', cursive;
+            font-size: 2.3rem;
+            color: #6a1b9a;
+            margin-bottom: 25px;
+        }
+
+        .items-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 520px;
+        }
+
+        .item-3d {
+            width: 110px;
+            height: 110px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+        }
+
+        .item-3d:hover {
+            transform: scale(1.12);
+        }
+
+        .notebook-paper {
+            background: #fffdf0;
+            padding: 30px 25px;
+            border-radius: 12px;
+            max-width: 380px;
+            width: 92%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 1px solid #e0dbb8;
+            position: relative;
+            text-align: left;
+            max-height: 82vh;
+            overflow-y: auto;
+        }
+
+        .notebook-paper h3 {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: #6a1b9a;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .notebook-paper p {
+            font-family: 'Caveat', cursive;
+            font-size: 1.25rem;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .memories-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .memories-grid img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* --- GIFT SECTION STYLING --- */
+        .gifts-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .gift-box-item {
+            background: #ffffff;
+            border: 3px solid #f48fb1;
+            border-radius: 16px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.15);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gift-box-item:hover {
+            transform: scale(1.06);
+            background: #fce4ec;
+        }
+
+        .gift-box-item img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+
+        .gift-box-item span {
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+            color: #c2185b;
+            font-weight: bold;
+        }
+
+        /* Revealed Gift Card Style */
+        .revealed-gift-card {
+            background: white;
+            padding: 15px 15px 30px 15px;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 280px;
+            width: 100%;
+            margin: 0 auto 15px auto;
+            text-align: center;
+            transform: rotate(-1deg);
+        }
+
+        .revealed-gift-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #6a1b9a;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 1.2rem;
+            font-family: 'Caveat', cursive;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Password Screen with Keypad Layout -->
+    <div class="screen active" id="screen-1">
+        <div class="pass-container">
+            <div class="pass-left">
+                <img src="img1.jpg" alt="Cute Illustration">
+            </div>
+            <div class="pass-right">
+                <div class="pass-title">Enter the Passcode</div>
+                <div class="pin-dots">
+                    <div class="pin-dot" id="dot-0"></div>
+                    <div class="pin-dot" id="dot-1"></div>
+                    <div class="pin-dot" id="dot-2"></div>
+                    <div class="pin-dot" id="dot-3"></div>
+                </div>
+                <div class="keypad-grid">
+                    <button class="key-btn" onclick="pressKey('1')">1</button>
+                    <button class="key-btn" onclick="pressKey('2')">2</button>
+                    <button class="key-btn" onclick="pressKey('3')">3</button>
+                    <button class="key-btn" onclick="pressKey('4')">4</button>
+                    <button class="key-btn" onclick="pressKey('5')">5</button>
+                    <button class="key-btn" onclick="pressKey('6')">6</button>
+                    <button class="key-btn" onclick="pressKey('7')">7</button>
+                    <button class="key-btn" onclick="pressKey('8')">8</button>
+                    <button class="key-btn" onclick="pressKey('9')">9</button>
+                    <button class="key-btn" onclick="pressKey('*')">*</button>
+                    <button class="key-btn" onclick="pressKey('0')">0</button>
+                    <button class="key-btn" onclick="pressKey('#')">#</button>
+                </div>
+                <button class="unlock-btn" onclick="verifyPass()">UNLOCK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Question Screen -->
+    <div class="screen" id="screen-2">
+        <div class="question-title">Hey Fatima! I made something for you, do you wanna see it?</div>
+        <div class="polaroid">
+            <img src="photo1.jpg" alt="Memory">
+        </div>
+        <div class="btn-group">
+            <button class="yes-btn" onclick="openHub()">Yes</button>
+            <button class="no-btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+        </div>
+    </div>
+
+    <!-- 3. Hub Screen with Big 3D Icons -->
+    <div class="screen" id="screen-3">
+        <div class="hub-header">click on each item to open ✨</div>
+        <div class="items-row">
+            <img src="camera.png" class="item-3d" onclick="openContent('camera')" title="Memories">
+            <img src="letter.png" class="item-3d" onclick="openContent('letter')" title="Love Letter">
+            <img src="cake.png" class="item-3d" onclick="openContent('wish')" title="Birthday Wish">
+            <img src="gift.png" class="item-3d" onclick="openContent('gifts')" title="Gifts">
+        </div>
+    </div>
+
+    <!-- 4. Content Popup Screen -->
+    <div class="screen" id="screen-4">
+        <div class="notebook-paper" id="content-body">
+        </div>
+    </div>
+
+    <script>
+        const secretCode = "3084";
+        let enteredPin = "";
+
+        function pressKey(num) {
+            if (enteredPin.length < 4) {
+                enteredPin += num;
+                updateDots();
+            }
+        }
+
+        function updateDots() {
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i < enteredPin.length) {
+                    dot.textContent = "•";
+                } else {
+                    dot.textContent = "";
+                }
+            }
+        }
+
+        function verifyPass() {
+            if(enteredPin === secretCode) {
+                document.getElementById('screen-1').classList.remove('active');
+                document.getElementById('screen-2').classList.add('active');
+            } else {
+                alert("Wrong password!");
+                enteredPin = "";
+                updateDots();
+            }
+        }
+
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = (Math.random() - 0.5) * 180;
+            const y = (Math.random() - 0.5) * 180;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function openHub() {
+            document.getElementById('screen-2').classList.remove('active');
+            document.getElementById('screen-3').classList.add('active');
+        }
+
+        function backToHub() {
+            document.getElementById('screen-4').classList.remove('active');
+            document.getElementById('screen-3').classList.add('active');
+        }
+
+        // Function to show the actual gift image when a box is clicked
+        function showGiftImage(imageFileName) {
+            const body = document.getElementById('content-body');
+            body.innerHTML = `
+                <h3>Your Gift! 🎁</h3>
+                <div class="revealed-gift-card">
+                    <img src="${imageFileName}" alt="Special Gift">
+                </div>
+                <span class="back-link" onclick="openContent('gifts')">← Choose Another Gift</span>
+            `;
+        }
+
+        function openContent(type) {
+            document.getElementById('screen-3').classList.remove('active');
+            document.getElementById('screen-4').classList.add('active');
+            const body = document.getElementById('content-body');
+
+            if(type === 'letter') {
+                body.innerHTML = `
+                    <h3>Happy Birthday Fatima! 💖</h3>
+                    <p>I honestly don't know how to put into words how grateful I am to have you in my life. Thank you for being my biggest supporter, my partner in crime, and the person I can always count on through thick and thin.</p>
+                    <p>Through all the laughs, random late-night conversations, inside jokes, and even the tough days, you've made life so much better just by being a part of it. You deserve nothing but the absolute best in this world.</p>
+                    <p>No matter where life takes us, I hope we always stay close and keep making memories together. Thank you for being the wonderful person you are and for making my life brighter every single day. Have the most amazing birthday!</p>
+                    <span class="back-link" onclick="backToHub()">← Go Back</span>
+                `;
+            } else if(type === 'camera') {
+                body.innerHTML = `
+                    <h3>Moments of Us 📸</h3>
+                    <p style="text-align:center; font-size:1rem; margin-bottom:10px;">(Scroll down to see all our memories!)</p>
+                    <div class="memories-grid">
+                        <img src="memory1.jpg" alt="Memory 1">
+                        <img src="memory2.jpg" alt="Memory 2">
+                        <img src="memory3.jpg" alt="Memory 3">
+                        <img src="memory4.jpg" alt="Memory 4">
+                        <img src="memory5.jpg" alt="Memory 5">
+                        <img src="memory6.jpg" alt="Memory 6">
+                        <img src="memory7.jpg" alt="Memory 7">
+                        <img src="memory8.jpg" alt="Memory 8">
+                        <img src="memory9.jpg" alt="Memory 9">
+                        <img src="memory10.jpg" alt="Memory 10">
+                    </div>
+                    <span class="back-link" onclick="backToHub()">← Go Back</span>
+                `;
+            } else if(type === 'wish') {
+                body.innerHTML = `
+                    <h3>Make a Wish 🎂</h3>
+                    <p style="text-align:center; font-size: 1.3rem;">May all the good things you've been waiting for finally find you this year. Wishing you endless happiness, success, and peace on your special day. Happy Birthday Fatima! 🎉✨</p>
+                    <span class="back-link" onclick="backToHub()">← Go Back</span>
+                `;
+            } else if(type === 'gifts') {
+                body.innerHTML = `
+                    <h3>Select a Gift Box 🎁</h3>
+                    <div style="height: 10px;"></div>
+                    <div class="gifts-container">
+                        <div class="gift-box-item" onclick="showGiftImage('surprise1.jpg')">
+                            <img src="gift1.png" alt="Gift">
+                            <span>Box 1</span>
+                        </div>
+                        <div class="gift-box-item" onclick="showGiftImage('surprise2.jpg')">
+                            <img src="gift2.png" alt="Gift">
+                            <span>Box 2</span>
+                        </div>
+                        <div class="gift-box-item" onclick="showGiftImage('surprise3.jpg')">
+                            <img src="gift3.png" alt="Gift">
+                            <span>Box 3</span>
+                        </div>
+                        <div class="gift-box-item" onclick="showGiftImage('surprise4.jpg')">
+                            <img src="gift.png" alt="Gift">
+               
+                    <!--Tab to edit-->
+                </p>
+                    <!--Tab to edit-->
+                </p>            
+                            <span>Box 4</span>
+                        </div>
+                    </div>
+                    <span class="back-link" onclick="backToHub()" style="margin-top:25px;">← Go Back</span>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
